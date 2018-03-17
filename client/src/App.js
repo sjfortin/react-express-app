@@ -11,12 +11,15 @@ class App extends Component {
 
   componentDidMount() {
     this.callApi()
-      .then(res => this.setState({ response: res.express }))
+      .then(res => {
+        console.log(res);
+        this.setState({response: res.total})
+      })
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/hello');
+    const response = await fetch('/shows/test-show-route');
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
@@ -29,7 +32,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">showkeep</h1>
         </header>
         <p className="App-intro">{this.state.response}</p>
       </div>

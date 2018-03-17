@@ -414,7 +414,39 @@ router.get('/getAllShows', function(req, res) {
 });
 
 router.get('/test-show-route', function(req, res) {
-  res.send({ express: 'We have been hit!' });
+  // res.send({ express: 'We have been hit!' });
+  let baseUrl = 'https://api.setlist.fm/rest/1.0/search/setlists?artistName=wilco&p=1';
+  // if (req.query.artist) {
+  //   baseUrl += 'artistName=' + req.query.artist;
+  // }
+  // if (req.query.city) {
+  //   baseUrl += '&cityName=' + req.query.city;
+  // }
+  // if (req.query.venue) {
+  //   baseUrl += '&venueName=' + req.query.venue;
+  // }
+  // baseUrl += '&p=' + req.query.currentPageNumber;
+
+  console.log('baseUrl', baseUrl);
+
+  request(
+    {
+      url: baseUrl,
+      headers: {
+        Accept: 'application/json',
+        'x-api-key': setListApiKey,
+        'User-Agent': 'request'
+      }
+    },
+    function(error, response, body) {
+      if (response && response.statusCode == 200) {
+        res.send(body);
+      } else {
+        console.log('error', error);
+        res.sendStatus(204);
+      }
+    }
+  );
 });
 
 // clear all server session information about this user
